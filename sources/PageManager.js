@@ -7,7 +7,11 @@ export default class PageManager {
         PageManager.main_page_container = document.body.querySelector('#main_body');
 
         // URLS Management
-        if(history.state != null && history.state.page_id != null) PageManager.ChangePage(history.state.page_id, {pushState: false});
+        if(history.state != null && history.state.page_id != null) {
+            PageManager.ChangePage(history.state.page_id, {pushState: false});
+        }else{
+            PageManager.ChangePage('home', {pushState: false});
+        }
         addEventListener('popstate', this.OnBrowserStateChange.bind(this))
     }
 
