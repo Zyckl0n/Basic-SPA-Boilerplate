@@ -1,0 +1,47 @@
+/**********************************************************/
+/* Colors
+/**********************************************************/
+:root{
+    --primary_color_1: rgb(13 109 253);
+    --primary_color_1_darken: rgb(12, 95, 219);
+    --main_background: rgb(255 255 255);
+    --weak_background: rgb(220 229 236);
+    --text_color: black;
+}
+
+/**********************************************************/
+/* Colors (Dark Mode)
+/**********************************************************/
+body.dark_mode{
+    --primary_color_1: rgb(13 109 253);
+    --primary_color_1_darken: rgb(12, 95, 219);
+    --main_background: #181818;
+    --weak_background: #1f1f1f;
+    --text_color: white;
+}
+
+/**********************************************************/
+/* Mains containers
+/**********************************************************/
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main_background);
+    color: var(--text_color);
+}
+
+#main_body {
+    width: 100vw;
+    height: 100%;
+    overflow: auto;
+    background: var(--main_background);
+}
+
+.page_container {
+    padding: 5px 20px;
+    box-sizing: border-box;
+}
