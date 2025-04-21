@@ -16,11 +16,37 @@ git clone https://github.com/Zyckl0n/Basic-SPA-Boilerplate.git
 ## <u>2. Get a HTTP server</u>
 You'll need a ```http(s)``` server, For a quick start on VS code, I recommand using the extension ["Live Server"](https://marketplace.visualstudio.com/items/?itemName=ritwickdey.LiveServer) (by Ritwick Dey)
 
-Using this extension you'll only have to click the ```Go Live``` button on the bottom right of your VS Code
+Then open the settings 
 
-## <u>3. The hello world project should be running</u>
-Go to http://127.0.0.1:5500/ (Default port is 5500) and you should have your app, up and runing
+![alt text](/assets/__readme/live_server_config_1.png)
 
+Redirect every URL to "index.html" so the SPA can work correctly.
+
+![alt text](/assets/__readme/live_server_config_2.png)
+
+Then disable the auto reload for the same reason :
+
+![alt text](/assets/__readme/live_server_config_3.png)
+
+```json
+{
+    /* ... */
+
+    "liveServer.settings.ignoreFiles": [
+        "**/*",
+        ".vscode/**",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.ts"
+    ]
+
+    /* ... */
+}
+```
+
+Then you should be good to go ! Hit the "Go Live" button on the bottom right corner
+
+![alt text](/assets/__readme/live_server_config_4.png)
 # How do i use it ?
 
 ## 1. Hello world
@@ -38,13 +64,34 @@ Go to http://127.0.0.1:5500/ (Default port is 5500) and you should have your app
 We're gonna make a counter as a example
 * Create a new directory in **/components** give him a unique ID (For example ```counter```)
 * Create a HTML file named after the directory (For example ```counter.html```)
+```html
+<div class="counter_component">
+    <h3 data-role="count">0s</h3>
+    <link rel="stylesheet" href="/components/counter/counter.css">
+</div>
+```
 * Create a JS file named after the directory (For example ```counter.js```). this file must be a JS module and export the controller class of the component as default export.
+```js
+export default class Counter {
+    constructor(container, config){
+        this.counter_div = container.querySelector('[data-role="count"]');
+        this.count = 0;
+        this.counter_div.style.color = config.color;
+        setInterval(this.Count.bind(this), 1000);
+    }
+
+    Count(){
+        this.counter_div.innerHTML = this.count + 's';
+        this.count++;
+    }
+}
+```
 * Your component can now be shown, In a page, you can include it like this
 ```html
 <component data-name="counter"></component>
 ```
 * Your controller class constructor will be called on the component body.
-* In your controller constructor you'll also get a object named "config" wich is every HTML attributes starting with "config-" concatenated in a object, here's a example of a config where we just change the text color.
+* Your controller constructor will also have second parameters named "config" wich is a object regrouping every HTML attributes starting with "config-", here's a example of a config where we just change the text color.
 ```html
 <component data-name="counter" config-color="blue"></component>
 ```
@@ -66,4 +113,6 @@ We're gonna make a counter as a example
     * **/pages/home :** The first page that will be called
     * **/pages/example_page :** a second page to demonstrate how navigation work.
 * **/sources :** The code making the SPA work, if you have to change something here, that mean i did something bad, or you want to do add things or remake it better than i did, wich is probably a good idea !
+* **/stylesheets :** Every stylesheets that does not belong to any specific pages or components
+    * **/stylesheets/master.css :** Call every other stylesheet (Just include master to include all the rest)
 * **/index.html :** The empty HTML skeleton that will contain the App (Runing with JS)
