@@ -11,7 +11,11 @@ export default class ComponentManager {
         const html = await ComponentManager.FetchComponentHTML(component_name);
         const prototype = await ComponentManager.FetchComponentPrototype(component_name);
         DOMComponent.innerHTML = html;
-        return new prototype(DOMComponent);
+        let component_config = {};
+        for (let i = 0; i < DOMComponent.attributes.length; i++) {
+            if(DOMComponent.attributes[i].name.startsWith('config-')) component_config[DOMComponent.attributes[i].name.slice(7)] = DOMComponent.attributes[i].value;
+        }
+        return new prototype(DOMComponent, component_config);
     }
 
     static controller_classes = {};

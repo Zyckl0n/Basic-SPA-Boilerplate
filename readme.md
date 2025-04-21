@@ -14,7 +14,7 @@ git clone https://github.com/Zyckl0n/Basic-SPA-Boilerplate.git
 ```
 
 ## <u>2. Get a HTTP server</u>
-You'll need a ```https``` server, For a quick start on VS code, i recommand using the extension ["Live Server"](https://marketplace.visualstudio.com/items/?itemName=ritwickdey.LiveServer) (by Ritwick Dey)
+You'll need a ```http(s)``` server, For a quick start on VS code, I recommand using the extension ["Live Server"](https://marketplace.visualstudio.com/items/?itemName=ritwickdey.LiveServer) (by Ritwick Dey)
 
 Using this extension you'll only have to click the ```Go Live``` button on the bottom right of your VS Code
 
@@ -38,13 +38,20 @@ Go to http://127.0.0.1:5500/ (Default port is 5500) and you should have your app
 We're gonna make a counter as a example
 * Create a new directory in **/components** give him a unique ID (For example ```counter```)
 * Create a HTML file named after the directory (For example ```counter.html```)
-* Create a JS file named after the directory (For example ```counter.js```). this file must be a JS module and  must export the controller class for the component.
+* Create a JS file named after the directory (For example ```counter.js```). this file must be a JS module and export the controller class of the component as default export.
 * Your component can now be shown, In a page, you can include it like this
 ```html
 <component data-name="counter"></component>
 ```
 * Your controller class constructor will be called on the component body.
-* TODO : Component params will be added soon
+* In your controller constructor you'll also get a object named "config" wich is every HTML attributes starting with "config-" concatenated in a object, here's a example of a config where we just change the text color.
+```html
+<component data-name="counter" config-color="blue"></component>
+```
+* The config object will look like this.
+```json
+{"color": "blue"}
+```
 
 # Quick overview of the project organisation
 

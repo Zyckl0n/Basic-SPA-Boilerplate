@@ -1,8 +1,9 @@
 export default class Counter {
-    constructor(container){
+    constructor(container, config){
         this.DOMContainer = container;
-        this.counter = this.DOMContainer.querySelector('[data-role="count"]');
+        this.DOMCounter = this.DOMContainer.querySelector('[data-role="count"]');
         this.count = 0;
+        this.DOMCounter.style.color = config.color;
         setInterval(this.Count.bind(this), 1000);
     }
 
@@ -18,7 +19,7 @@ export default class Counter {
     }
 
     Count(){
-        this.counter.innerHTML = this.TimestampToHumanTime(this.count);
+        this.DOMCounter.innerHTML = this.TimestampToHumanTime(this.count);
         this.count++;
     }
 }
