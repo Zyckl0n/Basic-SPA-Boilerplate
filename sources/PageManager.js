@@ -21,32 +21,92 @@ export default class PageManager {
     static current_page = null;
     
     static async ChangePage(page_name, options={}){
-        options = PageManager.GetDefaultOptions(options);
-
-        const page_html = await PageManager.FetchPageHTML(page_name);
-        const page_container = PageManager.CreatePageFromHTML(page_html, page_name);
-        ComponentManager.LoadAllComponents(page_container);
+        options = PageManager.GetChangePageDefaultOptions(options);
+        const path_to_html = PageManager.GetDefaultPageHTMLPath(page_name);
+        const page_container = await PageManager.LoadDOMContent(path_to_html);
+        PageManager.InitPageContainer(page_container, page_name);
         PageManager.main_page_container.appendChild(page_container);
+        PageManager.Eval_All_Scripts(page_container);
         if(PageManager.current_page != null) PageManager.current_page.remove();
         PageManager.current_page = page_container;
 
         if(options.pushState) PageManager._PushURLInNavigatorState(page_name);
     }
 
-    static GetDefaultOptions(options){
+    static GetChangePageDefaultOptions(options){
         if(options.pushState === undefined) options.pushState = true;
         return options;
     }
 
-    static CreatePageFromHTML(html, page_name){
-        const page_container = document.createElement('div');
+    static InitPageContainer(page_container, page_name){
         page_container.classList = 'page_container ' + page_name + '_page';
+        return page_container;
+    }
+
+    static GetDefaultPageHTMLPath(page_name){
+        return '/pages/'+page_name+'/'+page_name+'.html';
+    }
+
+    static async FetchPageHTML(page_name){
+        return await FetchRawHTML(PageManager.GetDefaultPageHTMLPath(page_name));
+    }
+
+    /*********************************************************************/
+    /* DOM Content Loading
+    /*********************************************************************/
+    static async LoadDOMContent(path){
+        const raw_html = await PageManager.FetchRawHTML(path);
+        const DOMContent = PageManager.CreateDOMContentFromHTML(raw_html);
+        ComponentManager.LoadAllComponents(DOMContent);
+        return DOMContent;
+    }
+
+    static CreateDOMContentFromHTML(html){
+        const page_container = document.createElement('div');
         page_container.innerHTML = html;
         return page_container;
     }
 
-    static async FetchPageHTML(page_name){
-        return await fetch('/pages/'+page_name+'/'+page_name+'.html').then(response => response.text());
+    static async FetchRawHTML(path){
+        return await fetch(path).then(response => response.text());
+    }
+
+    /*********************************************************************/
+    /* Script Execution
+    /*********************************************************************/
+    static Eval_All_Scripts(container){
+        Array.from(container.getElementsByTagName("script")).forEach((script) => {
+            if(script.getAttribute('type') == 'module'){
+                PageManager.ImportModuleFromTag(script);
+            }else{
+                PageManager.Eval_Script(script);
+            }
+        });
+    }
+
+    static ImportModuleFromTag(script){
+        import(script.src);
+    }
+
+    static Eval_Script(script){
+        const new_script = document.createElement('script');
+        new_script.page = this;
+
+        if (script.src) {
+            new_script.src = script.src;
+        } else if (script.textContent) {
+            new_script.textContent = script.textContent;
+        } else if (script.innerText) {
+            new_script.innerText = script.innerText;
+        }
+
+        script.parentNode.insertBefore(new_script, script);
+        script.parentNode.removeChild(script);
+
+        return {
+            type: 'script',
+            data: new_script
+        };
     }
 
     /*********************************************************************/

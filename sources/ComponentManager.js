@@ -8,9 +8,8 @@ export default class ComponentManager {
 
     static async LoadComponentFromDOM(DOMComponent){
         const component_name = DOMComponent.getAttribute('data-name');
-        const html = await ComponentManager.FetchComponentHTML(component_name);
         const prototype = await ComponentManager.FetchComponentPrototype(component_name);
-        DOMComponent.innerHTML = html;
+        if(!prototype.preserve_initial_container) DOMComponent.innerHTML = await ComponentManager.FetchComponentHTML(component_name);
         let component_config = {};
         for (let i = 0; i < DOMComponent.attributes.length; i++) {
             if(DOMComponent.attributes[i].name.startsWith('config-')) component_config[DOMComponent.attributes[i].name.slice(7)] = DOMComponent.attributes[i].value;
