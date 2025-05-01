@@ -67,16 +67,17 @@ We're gonna make a counter as a example
 ```html
 <div class="counter_component">
     <h3 data-role="count">0s</h3>
-    <link rel="stylesheet" href="/components/counter/counter.css">
 </div>
 ```
 * Create a JS file named after the directory (For example ```counter.js```). this file must be a JS module and export the controller class of the component as default export.
 ```js
 export default class Counter {
-    constructor(container, config){
+    static css_files = ['/components/counter/counter.css'];
+
+    constructor(container){
         this.counter_div = container.querySelector('[data-role="count"]');
         this.count = 0;
-        this.counter_div.style.color = config.color;
+        this.counter_div.style.color = container.getAttribute('config-color');
         setInterval(this.Count.bind(this), 1000);
     }
 
@@ -91,13 +92,13 @@ export default class Counter {
 <component data-name="counter"></component>
 ```
 * Your controller class constructor will be called on the component body.
-* Your controller constructor will also have second parameters named "config" wich is a object regrouping every HTML attributes starting with "config-", here's a example of a config where we just change the text color.
+* To configure your component, use the HTML attributes
 ```html
 <component data-name="counter" config-color="blue"></component>
 ```
-* The config object will look like this.
-```json
-{"color": "blue"}
+* Then you can recover it like you recover any HTML attribute, in the constructor : 
+```js
+let color = container.getAttribute('config-color');
 ```
 
 # Quick overview of the project organisation
