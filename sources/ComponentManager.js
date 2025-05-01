@@ -10,6 +10,7 @@ export default class ComponentManager {
         const component_name = DOMComponent.getAttribute('data-name');
         const prototype = await ComponentManager.FetchComponentPrototype(component_name);
         if(!prototype.preserve_initial_container) DOMComponent.innerHTML = await ComponentManager.FetchComponentHTML(component_name);
+        if(prototype.css_files != undefined && prototype.css_files.length > 0) ComponentManager.LoadComponentCss(prototype.css_files);
         let component_config = {};
         for (let i = 0; i < DOMComponent.attributes.length; i++) {
             if(DOMComponent.attributes[i].name.startsWith('config-')) component_config[DOMComponent.attributes[i].name.slice(7)] = DOMComponent.attributes[i].value;
@@ -26,7 +27,24 @@ export default class ComponentManager {
         return ComponentManager.controller_classes[component_name];
     }
 
+    static async LoadComponentCss(CSSPaths){
+        CSSPaths.forEach(filepaths => {
+            ComponentManager.InsertCSS(filepaths);
+        });
+    }
+
     static async FetchComponentHTML(component_name){
         return await fetch('/components/'+component_name+'/'+component_name+'.html').then(response => response.text());
+    }
+
+    static included_css = {};
+    static InsertCSS(filepath){
+        if(this.included_css[filepath] != null) return;
+        var stylesheet = document.createElement( "link" );
+        stylesheet.href = filepath;
+        stylesheet.type = "text/css";
+        stylesheet.rel = "stylesheet";
+        this.included_css[filepath] = stylesheet;
+        document.head.appendChild(stylesheet);
     }
 }
