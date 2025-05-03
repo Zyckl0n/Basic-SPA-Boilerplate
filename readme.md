@@ -103,17 +103,17 @@ let color = container.getAttribute('config-color');
 
 # Quick overview of the project organisation
 
-* **/assets :** Where i'm putting my images, video or decorative element such as fonts or icon.
-* **/components :** Where the code of components in your apps should be, 
-    * **/components/counter :** All the code for the counter component
-        * **/components/counter/counter.html :** HTML of the component, Must be named as the component
-        * **/components/counter/counter.js :** Javascript controller of the component, Must be named as the component
-        * **/components/counter/counter.css :** Style of the component (Not included by default with the component)
-* **/config :** Where I suggest you put the config of your project, So it will be accessible with a simple import in you components or pages
-* **/pages :** The pages (Big naming skills here)
-    * **/pages/home :** The first page that will be called
-    * **/pages/example_page :** a second page to demonstrate how navigation work.
-* **/sources :** The code making the SPA work, if you have to change something here, that mean i did something bad, or you want to do add things or remake it better than i did, wich is probably a good idea !
-* **/stylesheets :** Every stylesheets that does not belong to any specific pages or components
-    * **/stylesheets/master.css :** Call every other stylesheet (Just include master to include all the rest)
-* **/index.html :** The empty HTML skeleton that will contain the App (Runing with JS)
+* 📁 **/assets :** Where i'm putting my images, video or decorative element such as fonts or icon.
+* 📁 **/components :** Where the code of components in your apps should be, 
+    * 📁 **/components/counter :** All the code for the counter component
+        * 🟧 **/components/counter/counter.html :** HTML of the component, Must be named as the component
+        * 🟨 **/components/counter/counter.js :** Javascript controller of the component, Must be named as the component
+        * 🟦 **/components/counter/counter.css :** Style of the component (Not included by default with the component)
+* 📁 **/config :** Where I suggest you put the config of your project, So it will be accessible with a simple import in you components or pages
+* 📁 **/pages :** The pages (Big naming skills here)
+    * 📁 **/pages/home :** The first page that will be called
+    * 📁 **/pages/example_page :** a second page to demonstrate how navigation work.
+* 📁 **/sources :** The code making the SPA work, if you have to change something here, that mean i did something bad, or you want to do add things or remake it better than i did, wich is probably a good idea !
+* 📁 **/stylesheets :** Every stylesheets that does not belong to any specific pages or components
+    * 🟦 **/stylesheets/master.css :** Call every other stylesheet (Just include master to include all the rest)
+* 🟧 **/index.html :** The empty HTML skeleton that will contain the App (Runing with JS)

@@ -32,7 +32,7 @@ export default class CardController {
     }
 
     /*********************************************************************************/
-    /* Getters & Setters (Update the DOM)
+    /* Getters & Setters (Update the DOM and the value)
     /*********************************************************************************/
     set title(value){
         this.title_container.innerText = value;
