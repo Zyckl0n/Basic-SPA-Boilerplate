@@ -3,7 +3,6 @@ export default class ComponentManager {
 
     static async LoadAllComponents(container){
         const component_list = Array.from(container.getElementsByTagName('component'));
-
         await Promise.all(component_list.map(ComponentManager.InitializeCustomTag));
     }
 
@@ -11,7 +10,6 @@ export default class ComponentManager {
     static async LoadComponent(component_name) {
         // Loading the controller class
         const component_controller = (await import("/components/"+component_name+"/"+component_name+".js")).default;
-        ComponentManager.loaded_controllers[component_name] = component_controller;
 
         // Loading HTML template
         component_controller.template = document.createElement('template');
@@ -19,18 +17,39 @@ export default class ComponentManager {
 
         // Loading CSS
         if(component_controller.css_files != undefined) ComponentManager.LoadCSSFiles(component_controller.css_files)
+
+        // Finishing
+        ComponentManager.loaded_controllers[component_name] = component_controller;
+        return component_controller;
+    }
+
+    // Fetch the controller class of a component and store it in "loaded_controllers"
+    static async GetComponentController(component_name){
+        // First time loading
+        if(ComponentManager.loaded_controllers[component_name] == undefined) ComponentManager.loaded_controllers[component_name] = ComponentManager.LoadComponent(component_name);
+
+        if(Utils.IsPromise(ComponentManager.loaded_controllers[component_name])){
+            // If the controller is still loading (Controller is a promise)
+            return await ComponentManager.loaded_controllers[component_name];
+        }else{
+            // If it already loaded 
+            return ComponentManager.loaded_controllers[component_name];
+        }
     }
 
     // Initialize a <component> tag
     static async InitializeCustomTag(DOMComponent){
         const component_name = DOMComponent.getAttribute('data-name');
 
-        // Loading the component for the first time
-        if(ComponentManager.loaded_controllers[component_name] == undefined) await ComponentManager.LoadComponent(component_name);
-
-        const component_controller = ComponentManager.loaded_controllers[component_name];
+        // Loading the component
+        const component_controller = await ComponentManager.GetComponentController(component_name);
         if(!component_controller.preserve_initial_container){
-            DOMComponent.replaceChildren(component_controller.template.content.cloneNode(true));
+            const new_body = component_controller.template.content.cloneNode(true);
+            Array.from(DOMComponent.children).forEach(child => {
+                const slot = child.getAttribute('slot');
+                if(slot != null) new_body.querySelector('[slot="'+slot+'"]').replaceChildren(...child.children);
+            });
+            DOMComponent.replaceChildren(new_body);
             await ComponentManager.LoadAllComponents(DOMComponent);
         }
 

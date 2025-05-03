@@ -51,6 +51,10 @@ export default class Utils {
             img.classList.add('scale_width');
         }
     }
+
+    static IsPromise(obj){
+        return typeof obj.then == 'function';
+    }
     
     static GetYoutubeVideoUrl(id, si){
         return 'https://www.youtube.com/embed/'+id+'?si='+si+'&autoplay=1&loop=1&controls=0&rel=0';
