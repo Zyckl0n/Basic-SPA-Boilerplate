@@ -1,0 +1,17 @@
+.page_container {
+    position: fixed;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.page_container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.page_container::-webkit-scrollbar {
+    display: none;
+}

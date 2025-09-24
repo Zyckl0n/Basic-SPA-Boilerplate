@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <title>SPA Boilerplate</title>
-    <link rel="stylesheet" href="/stylesheets/master.css">
-    <script src="/sources/MainApp.js" type="module"></script>
-    <link rel="icon" type="image/x-icon" href="/assets/icons/world.svg">
-  </head>
-  <body>
-    <div class="header">
-        <img class="header_logo" onclick="ChangePage('home')" src="/assets/icons/world.svg">
-        <h1>Title</h1>
-    </div>
-    <div id="main_body"></div>
-  </body>
+    <head>
+        <title>Basic SPA Boilerplate</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/x-icon" href="/assets/icons/world.svg">
+        <link rel="stylesheet" href="/core/master.css">
+        <script src="/core/MainApp.js" type="module"></script>
+
+        <!-- == Dynamically loaded content == -->
+    </head>
+
+    <body>
+        <div id="main_app_container"></div>
+    </body>
 </html>

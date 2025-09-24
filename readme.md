@@ -53,11 +53,11 @@ Then you should be good to go ! Hit the "Go Live" button on the bottom right cor
 **pages/home/home.html** is where the home page is rendered, you can start here and mess around with the HTML
 
 ## 2. Creating a new Page
-* Create a new directory in **/pages** give him a unique ID (For example ```example_page```)
+* Create a new directory in **/app** give him a unique ID (For example ```example_page```)
 * Create a HTML file named after the directory (For example ```example_page.html```)
 * Your page is now ready to be shown, In the home page, add a button that'll navigate to your new page :
 ```html
-<button onclick="ChangePage('example_page')">Go to your page</button>
+<button onclick="ChangePage('/app/...')">Go to your page</button>
 ```
 
 ## 3. Creating a new component
@@ -110,9 +110,9 @@ let color = container.getAttribute('config-color');
         * 🟨 **/components/counter/counter.js :** Javascript controller of the component, Must be named as the component
         * 🟦 **/components/counter/counter.css :** Style of the component (Not included by default with the component)
 * 📁 **/config :** Where I suggest you put the config of your project, So it will be accessible with a simple import in you components or pages
-* 📁 **/pages :** The pages (Big naming skills here)
-    * 📁 **/pages/home :** The first page that will be called
-    * 📁 **/pages/example_page :** a second page to demonstrate how navigation work.
+* 📁 **/app :** The pages (Big naming skills here)
+    * 📁 **/app/home :** The first page that will be called
+    * 📁 **/app/test_page :** a second page to demonstrate how navigation work.
 * 📁 **/sources :** The code making the SPA work, if you have to change something here, that mean i did something bad, or you want to do add things or remake it better than i did, wich is probably a good idea !
 * 📁 **/stylesheets :** Every stylesheets that does not belong to any specific pages or components
     * 🟦 **/stylesheets/master.css :** Call every other stylesheet (Just include master to include all the rest)
