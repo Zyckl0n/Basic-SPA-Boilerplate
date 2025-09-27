@@ -20,6 +20,11 @@ export default class PageManager {
     /*********************************************************************/
     static current_page = null;
     
+    /**
+     * Load a page HTML, initialise it's content and insert it in the DOM, replacing the one before
+     * @param {String} path_to_html Path to the HTML files
+     * @param {Object} _options a list of options
+     */
     static async ChangePage(path_to_html, _options={}){
         const page_path_no_ext = Utils.RemoveExtension(path_to_html);
         const options  = PageManager.GetChangePageDefaultOptions(_options);
@@ -44,6 +49,11 @@ export default class PageManager {
         setTimeout(transition.AfterNewPageInsertion.bind(transition), 10);
     }
 
+    /**
+     * Replace every undefined options with there default values
+     * @param {Object} options The options choosed by the user
+     * @returns The same options object, but every undefined field has been updated with default values
+     */
     static GetChangePageDefaultOptions(options){
         if(options.pushState === undefined) options.pushState = true;
         if(options.transition === undefined) options.transition = new this.default_transition_class();
@@ -51,6 +61,10 @@ export default class PageManager {
         return options;
     }
 
+    /**
+     * Create a empty <div> tag corresponding to a page container
+     * @returns {HTMLDivElement} The newly created <div>
+     */
     static InitPageContainer(){
         let page_container = document.createElement('div');
         page_container.classList = 'page_container ';
@@ -60,6 +74,12 @@ export default class PageManager {
     /*********************************************************************/
     /* DOM Content Loading
     /*********************************************************************/
+    /**
+     * Load a HTML files into a container.
+     * @param {String} path Path to the HTML file
+     * @param {HTMLElement} container The tag where you want to insert the HTML into
+     * @returns The updated container
+     */
     static async LoadHTMLFragment(path, container = null){
         if(container == null) container = this.InitPageContainer();
         container.innerHTML = await fetch(path).then(response => response.text());
@@ -69,6 +89,10 @@ export default class PageManager {
         return container;
     }
 
+    /**
+     * Make sure every <video> tag with autoplay is playing
+     * @param {HTMLElement} container Any HTML tag
+     */
     static async RunAutoplay(container) {
         container.querySelectorAll('video[autoplay]').forEach(video => {
             if(video.paused) video.play();
